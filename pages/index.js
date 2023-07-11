@@ -2,6 +2,8 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 
 import Banner from "@/components/banner/banner";
+import NavBar from "@/components/nav/navbar";
+
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
       </Head>
 
       <h1>Netflix</h1>
+
+      <NavBar username="text@io.com" />
 
       <Banner
         title="Clifford the red dog"
