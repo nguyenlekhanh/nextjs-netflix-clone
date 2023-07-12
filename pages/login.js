@@ -5,8 +5,8 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import styles from "../styles/Login.module.css";
-import { magic } from "../lib/magic-client";
+import styles from "@/styles/Login.module.css";
+import { magic } from "@/lib/magic-client";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +19,6 @@ const Login = () => {
     const handleComplete = () => {
       setIsLoading(false);
     };
-
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleComplete);
 
@@ -28,7 +27,6 @@ const Login = () => {
       router.events.off("routeChangeError", handleComplete);
     };
   }, [router]);
-
 
   const handleOnChangeEmail = (e) => {
     setUserMsg("");
@@ -51,8 +49,21 @@ const Login = () => {
           });
           console.log({ didToken });
           if (didToken) {
-            setIsLoading(false);
-            router.push("/");
+            const response = await fetch("/api/login", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${didToken}`,
+                "Content-Type": "application/json",
+              },
+            });
+
+            const loggedInResponse = await response.json();
+            if (loggedInResponse.done) {
+              router.push("/");
+            } else {
+              setIsLoading(false);
+              setUserMsg("Something went wrong logging in");
+            }
           }
         } catch (error) {
           // Handle errors if required!
