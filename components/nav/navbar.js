@@ -14,7 +14,11 @@ const NavBar = () => {
   useEffect(() => {
     async function getUsername() {
       try {
-        const { email } = await magic.user.getMetadata();
+        //const { email } = await magic.user.getMetadata();
+        const { email, issuer } = await magic.user.getMetadata();
+        const didToken = await magic.user.getIdToken();
+        console.log({ didToken });
+
         if (email) {
           setUsername(email);
         }
@@ -71,9 +75,9 @@ const NavBar = () => {
           <li className={styles.navItem} onClick={handleOnClickHome}>
             Home
           </li>
-          <li className={styles.navItem2} onClick={handleOnClickMyList}>
+          {/* <li className={styles.navItem2} onClick={handleOnClickMyList}>
             My List
-          </li>
+          </li> */}
         </ul>
         <nav className={styles.navContainer}>
           <div>
